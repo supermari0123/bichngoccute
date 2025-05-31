@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Khối Vuông Bắn Súng</title>
+    <link rel="stylesheet" href="css/block-shooter-style.css"> <!-- CSS mới hoặc cập nhật -->
+</head>
+<body>
+    <div id="gameScreen"> <!-- Đổi tên container chính cho rõ ràng -->
+        <div id="player"></div>
+        <!-- Đạn và quái sẽ được tạo bởi JS -->
+        <div id="bossWallFinal" style="display: none;"></div> <!-- Tường đỏ cuối cùng -->
+
+        <div id="scoreDisplay">Điểm: 0</div>
+        <div id="gameOverScreen" style="display: none;">
+            <p>GAME OVER!</p>
+            <p id="finalScore"></p>
+            <p>Giỏi Quaaaaa!</p>
+            <!-- <button id="restartButton">Chơi Lại</button> -->
+        </div>
+    </div>
+
+    <div id="mobileControlsShooter">
+        <button id="btnMoveLeft">◀</button>
+        <button id="btnShootMobile">BẮN</button>
+        <button id="btnMoveRight">▶</button>
+        <button id="btnJumpMobileShooter">▲</button> <!-- Nút nhảy nếu vẫn giữ -->
+    </div>
+    <audio id="backgroundGameMusic" src="assets/game-background-music.mp3" loop></audio>
+    <script src="js/block-shooter-game.js"></script> <!-- JS mới -->
+</body>
+</html>

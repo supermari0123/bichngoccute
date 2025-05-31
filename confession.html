@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Một Lời Nhắn Đặc Biệt...</title>
+    <link rel="stylesheet" href="css/confession-style.css">
+</head>
+<body>
+    <div class="background-overlay"></div> <!-- Lớp phủ mờ cho nền -->
+    <div class="confession-container" id="confessionContainer">
+        <div class="question-box">
+            <p class="question-text">Thật ra... tớ đã thích cậu từ rất lâu rồi.</p>
+            <p class="main-question">Cậu đồng ý làm người yêu tớ nhé?</p>
+        </div>
+        <div class="buttons-area">
+            <button class="answer-button no-button" id="noButton">Không</button>
+            <button class="answer-button yes-button" id="yesButton">❤️ Có ❤️</button>
+        </div>
+    </div>
+
+    <audio id="confessionMusic" src="assets/nhac-to-tinh.mp3" loop></audio> <!-- Nhạc nền tỏ tình -->
+    <audio id="yesSound" src="assets/nhac-dong-y.mp3"></audio> <!-- Âm thanh khi nhấn "Có" -->
+
+
+    <script src="js/confession-script.js"></script>
+</body>
+</html>

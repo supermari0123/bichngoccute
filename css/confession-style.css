@@ -1,0 +1,153 @@
+/* css/confession-style.css */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 70%, #ffdde1 100%);
+    background-size: cover;
+    background-position: center;
+    color: #333;
+    padding: 10px; /* Padding nhỏ cho body */
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap');
+/* Ví dụ dùng font Poppins và Pacifico (cho chữ ký hoặc tiêu đề lãng mạn) */
+/* body { font-family: 'Poppins', sans-serif; } */
+
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: -1;
+}
+
+.confession-container {
+    background-color: rgba(255, 255, 255, 0.92);
+    /* Kích thước ban đầu cho desktop, JS sẽ điều chỉnh cho responsive */
+    width: 550px; 
+    /* height sẽ tự động theo nội dung hoặc JS có thể đặt nếu cần tỷ lệ cố định */
+    max-width: 95vw; /* Không vượt quá 95% chiều rộng viewport */
+    max-height: 90vh; /* Không vượt quá 90% chiều cao viewport, cho phép scroll nếu nội dung dài */
+    overflow-y: auto; /* Cho phép scroll nếu nội dung dài hơn chiều cao */
+
+    padding: clamp(25px, 5vw, 45px); /* Padding co giãn */
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0,0,0,0.07);
+    text-align: center;
+    transform: scale(0.9);
+    opacity: 0;
+    animation: fadeInConfession 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+    border: 1px solid rgba(255,200,200,0.5);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    box-sizing: border-box;
+}
+
+/* Hiệu ứng hover nhẹ cho khung tỏ tình */
+.confession-container:hover {
+    transform: scale(1.01) translateY(-5px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0,0,0,0.08);
+}
+
+
+@keyframes fadeInConfession {
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.question-box {
+    margin-bottom: clamp(25px, 6vh, 40px); /* Khoảng cách co giãn */
+}
+
+.question-text {
+    font-size: clamp(1.1em, 2.8vw, 1.4em); /* Font co giãn */
+    color: #4a4a4a;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.main-question {
+    font-size: clamp(1.5em, 4vw, 2em); /* Font co giãn */
+    font-weight: bold;
+    color: #e91e63;
+    margin-bottom: 0;
+    text-shadow: 1px 1px 3px rgba(233, 30, 99, 0.15);
+}
+
+.buttons-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(15px, 4vw, 30px); /* Gap co giãn */
+    position: relative; /* Vẫn giữ relative để các nút có thể được JS đặt vị trí tương đối nếu sau này muốn */
+    min-height: 70px; /* Giảm một chút */
+    margin-top: clamp(20px, 5vh, 35px);
+}
+
+.answer-button {
+    /* Kích thước và padding sẽ được JS đặt dựa trên scaleFactor */
+    font-weight: bold;
+    border: none;
+    border-radius: 30px; /* Giữ bo tròn */
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.68, -0.55, 0.27, 1.55), 
+                box-shadow 0.25s ease-out, 
+                font-size 0.3s ease-out, 
+                padding 0.3s ease-out,
+                background-color 0.25s ease,
+                opacity 0.3s ease-out;
+    will-change: transform, font-size, padding, opacity;
+    /* Bỏ position: absolute để flexbox căn chỉnh, trừ khi JS cần đặt vị trí tuyệt đối sau này */
+    /* position: absolute; */ 
+    flex-shrink: 0; /* Ngăn nút bị co lại nếu không đủ không gian */
+}
+
+.no-button {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border: 2px solid #ced4da;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+.no-button:hover {
+    background-color: #e9ecef;
+    transform: scale(1.05); /* Hiệu ứng hover cơ bản */
+}
+
+.yes-button {
+    background: linear-gradient(45deg, #ff6384, #ff96a7);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 99, 132, 0.4);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.yes-button:hover {
+    transform: scale(1.08); /* Hiệu ứng hover cơ bản */
+}
+
+.final-message {
+    padding: clamp(15px, 3vw, 20px);
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.9);
+}
+.final-message h2 {
+    font-size: clamp(1.5em, 3.5vw, 2em);
+    color: #e91e63;
+    margin-bottom: 15px;
+}
+.final-message p {
+    font-size: clamp(1em, 2.5vw, 1.25em);
+    color: #4a4a4a;
+}

@@ -1,0 +1,147 @@
+/* css/block-shooter-style.css */
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #2c3e50;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+#gameScreen {
+    width: 800px; 
+    height: 450px;
+    max-width: 100%; 
+    box-sizing: border-box;
+    border: 3px solid #ecf0f1;
+    position: relative; 
+    overflow: hidden;
+    background-color: #34495e;
+    image-rendering: pixelated;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#player, .bullet, .enemy, #bossWallFinal {
+    position: absolute;
+    box-sizing: border-box;
+}
+
+#player {
+    background-color: #3498db;
+    border: 2px solid #2980b9;
+    box-shadow: 3px 3px 0px #1f638f;
+    /* width, height, left, bottom sẽ được JS set */
+}
+
+.bullet {
+    background-color: #f1c40f;
+    border: 1px solid #f39c12;
+    box-shadow: 1px 1px 0px #c09820;
+    /* width, height, left, bottom sẽ được JS set */
+}
+
+.enemy {
+    background-color: #e74c3c;
+    border: 2px solid #c0392b;
+    box-shadow: 3px 3px 0px #a52a1a;
+    /* width, height, left, bottom sẽ được JS set */
+}
+
+#bossWallFinal {
+    background-color: #c0392b;
+    border-left: 4px solid #922b21;
+    top: 0;
+    right: 0;
+    height: 100%;
+    /* width sẽ được JS set */
+}
+
+#scoreDisplay {
+    position: absolute;
+    color: white;
+    text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000;
+    z-index: 10;
+    padding: 5px;
+    /* top, left, font-size sẽ được JS set */
+}
+
+#gameOverScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #fff;
+    z-index: 20;
+    width: 80%;
+    max-width: 400px;
+}
+#gameOverScreen p { font-size: 1.2em; margin: 10px 0; }
+#finalScore { font-size: 1.5em; color: #f1c40f; }
+
+#mobileControlsShooter {
+    display: none; 
+    position: relative;
+    width: 90vw;
+    max-width: 500px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#mobileControlsShooter button {
+    padding: 15px;
+    min-width: 70px;
+    font-size: 1.5em;
+    background-color: rgba(236, 240, 241, 0.6);
+    color: #2c3e50;
+    border: 2px solid rgba(189, 195, 199, 0.8);
+    border-radius: 8px;
+    font-family: 'Press Start 2P', cursive;
+    box-shadow: 0 3px 0 rgba(149, 165, 166, 0.8);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+#mobileControlsShooter button:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 rgba(149, 165, 166, 0.8);
+}
+
+@media (max-width: 820px) {
+    #gameScreen { max-height: 90vh; border-width: 2px; }
+    #scoreDisplay { /* JS sẽ điều chỉnh font, top, left */ }
+    #gameOverScreen { padding: 20px; width: 85%; }
+    #gameOverScreen p { font-size: clamp(0.9em, 3vw, 1.1em); }
+    #finalScore { font-size: clamp(1em, 3.5vw, 1.3em); }
+    #mobileControlsShooter { display: flex; width: 95vw; }
+    #mobileControlsShooter button {
+        padding: clamp(10px, 3.5vw, 14px);
+        min-width: clamp(55px, 18vw, 65px);
+        font-size: clamp(1.2em, 5vw, 1.6em);
+    }
+}
+
+@media (max-width: 480px) {
+    #gameScreen { max-height: 85vh; }
+    #mobileControlsShooter { width: 98vw; }
+    #mobileControlsShooter button {
+        font-size: clamp(1em, 4.5vw, 1.4em);
+        padding: clamp(8px, 3vw, 12px);
+    }
+}

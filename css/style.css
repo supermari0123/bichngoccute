@@ -626,3 +626,42 @@ body.dragging, body.dragging .letter-icon {
         width: calc(100% - 22px);
     }
 }
+.adventure-start-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); /* Màu nền vui tươi */
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.start-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.start-container h1 {
+    color: #ff6347; /* Tomato */
+    margin-bottom: 20px;
+}
+.start-container p {
+    color: #555;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+}
+#startGameButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.3em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+#startGameButton:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
