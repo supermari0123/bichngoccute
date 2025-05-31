@@ -1,667 +1,272 @@
+/* css/style.css */
+
+/* --- FONT IMPORT --- */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Pacifico&family=Lobster&display=swap');
+
+/* --- GLOBAL BODY STYLES & RESETS --- */
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    overflow: hidden; /* Ngăn scrollbar xuất hiện do các element ngoài màn hình */
-    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    color: #333;
+    box-sizing: border-box;
+    line-height: 1.5;
+}
+*, *::before, *::after { box-sizing: inherit; }
+
+/* --- NỀN GRADIENT CHUYỂN ĐỘNG CHO LOGIN VÀ MESSAGE PAGE --- */
+body.login-page, body.message-page {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: #fff; 
     text-align: center;
+    background: linear-gradient(130deg, #6a11cb, #fc5c7d, #ff9a9e, #fecfef, #a1c4fd, #6a11cb);
+    background-size: 600% 600%;
+    animation: dreamyGradientBackground 35s ease infinite alternate;
+}
+@keyframes dreamyGradientBackground {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
-/* --- Nền Hồng Lãng Mạn (Tùy chọn 2: Mây Hồng) --- */
-.stars-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #ffe8f0; /* Màu nền hồng rất nhạt */
-    z-index: -2;
-    overflow: hidden;
-}
+/* --- HIỆU ỨNG NỀN CHUNG (SAO, HÀNH TINH, TRÁI TIM) --- */
+.stars-background-css-effects { /* ... (Giữ nguyên từ trước nếu bạn dùng) ... */ }
+.planets { /* ... (Giữ nguyên từ trước) ... */ position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.planet { /* ... (Giữ nguyên từ trước) ... */ position: absolute; opacity: 0.65; }
+.planet1 { /* ... (Giữ nguyên từ trước) ... */ width: clamp(90px, 14vw, 170px); top: 10%; left: 8%; animation: orbit1 40s linear infinite; }
+.planet2 { /* ... (Giữ nguyên từ trước) ... */ width: clamp(60px, 9vw, 110px); bottom: 10%; right: 10%; animation: orbit2 55s linear infinite alternate; }
+@keyframes orbit1 { /* ... (Giữ nguyên từ trước) ... */  0% { transform: translate(0, 0) rotate(0deg) translateX(clamp(18px, 2.5vw, 28px)) rotate(0deg) scale(0.95); } 50% { transform: translate(5px, 5px) rotate(180deg) translateX(clamp(18px, 2.5vw, 28px)) rotate(-180deg) scale(1.05); } 100% { transform: translate(0, 0) rotate(360deg) translateX(clamp(18px, 2.5vw, 28px)) rotate(-360deg) scale(0.95); } }
+@keyframes orbit2 { /* ... (Giữ nguyên từ trước) ... */  0% { transform: translate(0, 0) rotate(0deg) translateX(clamp(22px, 3.5vw, 38px)) translateY(clamp(5px, 1vw, 10px)) rotate(0deg) scale(1); } 100% { transform: translate(0, 0) rotate(360deg) translateX(clamp(22px, 3.5vw, 38px)) translateY(clamp(5px, 1vw, 10px)) rotate(-360deg) scale(1.1); } }
+.hearts-container { /* ... (Giữ nguyên từ trước) ... */ position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+.heart-char { /* ... (Giữ nguyên từ trước) ... */ position: absolute; color: rgba(255, 50, 50, 0.65); font-size: clamp(10px, 1.8vw, 20px); animation: fallAndFade 8s linear infinite; user-select: none; text-shadow: 0 0 6px rgba(255,120,120,0.6); }
+@keyframes fallAndFade { /* ... (Giữ nguyên từ trước) ... */ 0% { transform: translateY(-5vh) translateX(0) rotate(0deg) scale(1); opacity: 1; } 100% { transform: translateY(105vh) translateX(calc(50vw - 50%)) rotate(720deg) scale(0.3); opacity: 0; } }
 
-/* Lớp mây hồng 1 (xa hơn, mờ hơn) */
-.stars-background::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-image:
-        radial-gradient(ellipse at 20% 80%, hsla(340, 80%, 85%, 0.5) 0%, transparent 70%), /* Hồng pastel */
-        radial-gradient(ellipse at 70% 30%, hsla(330, 70%, 90%, 0.4) 0%, transparent 60%),
-        radial-gradient(ellipse at 50% 90%, hsla(10, 70%, 88%, 0.3) 0%, transparent 70%); /* Chút cam đào */
-    background-blend-mode: overlay; /* Hoặc 'soft-light' */
-    animation: floatClouds 120s linear infinite alternate;
-    will-change: transform, opacity;
-    opacity: 0.8;
-}
-
-/* Lớp mây hồng 2 (gần hơn, rõ hơn) và ánh sáng */
-.stars-background::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-image:
-        radial-gradient(ellipse at 10% 15%, hsla(350, 90%, 80%, 0.6) 0%, transparent 65%),
-        radial-gradient(ellipse at 85% 70%, hsla(320, 85%, 88%, 0.55) 0%, transparent 60%),
-        /* Ánh sáng lung linh */
-        radial-gradient(circle at 50% 50%, hsla(40, 100%, 95%, 0.15) 0%, transparent 40%), /* Vàng trắng mờ */
-        radial-gradient(circle at 25% 60%, hsla(330, 100%, 97%, 0.1) 0%, transparent 30%); /* Hồng rất nhạt */
-    background-blend-mode: screen;
-    animation: floatCloudsNear 90s linear infinite alternate, subtleShine 10s infinite ease-in-out;
-    will-change: transform, opacity;
-}
-
-@keyframes floatClouds {
-    0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
-    50% { opacity: 0.9; }
-    100% { transform: translate(30px, -20px) scale(1.05); opacity: 0.7; }
-}
-
-@keyframes floatCloudsNear {
-    0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
-    50% { opacity: 1; }
-    100% { transform: translate(-25px, 15px) scale(1.03); opacity: 0.8; }
-}
-
-@keyframes subtleShine {
-    0% { opacity: 0.9; }
-    50% { opacity: 1; filter: brightness(1.1); }
-    100% { opacity: 0.9; }
-}
-
-@keyframes twinkleLittleStars {
-  0% { opacity: 0.5; }
-  50% { opacity: 0.9; }
-  100% { opacity: 0.5; }
-}
-@keyframes twinkleBiggerStars {
-  0% { opacity: 0.3; }
-  50% { opacity: 0.7; }
-  100% { opacity: 0.3; }
-}
-
-@keyframes starsParallaxSlow {
-  from { background-position-x: 0px; background-position-y: 0px; }
-  to { background-position-x: -1000px; background-position-y: -250px; }
-}
-@keyframes starsParallaxMedium {
-  from { background-position-x: 0px; background-position-y: 0px; }
-  to { background-position-x: -1500px; background-position-y: -375px; }
-}
+/* --- TRANG ĐĂNG NHẬP (index.html) --- */
+.login-page { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.login-page .login-container { /* ... (Giữ nguyên style cho login-container từ trước) ... */ background: rgba(25, 10, 55, 0.75); padding: clamp(30px, 6vw, 45px); border-radius: 25px; box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3), 0 0 20px rgba(180, 160, 230, 0.25) inset; z-index: 2; max-width: 450px; width: 90%; border: 1px solid rgba(255, 255, 255, 0.1); transition: transform 0.35s ease-out, box-shadow 0.35s ease-out; }
+.login-page .login-container:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35), 0 0 25px rgba(200, 180, 255, 0.35) inset; }
+.login-container h1 { /* ... (Giữ nguyên) ... */ font-family: 'Lobster', cursive; color: #f8da77; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin-bottom: 18px; font-size: clamp(2em, 6vw, 2.5em); }
+.login-container p:not(#errorMessage) { /* ... (Giữ nguyên) ... */ color: #e8e0f0; margin-bottom: 30px; font-size: clamp(1.05em, 2.8vw, 1.2em); }
+.login-container label { /* ... (Giữ nguyên) ... */ display: block; margin-bottom: 8px; color: #f5f5f5; text-align: left; font-size: clamp(0.95em, 2.4vw, 1.05em); }
+.login-container input[type="text"], .login-container input[type="password"] { /* ... (Giữ nguyên) ... */ width: 100%; box-sizing: border-box; padding: 13px; margin-bottom: 20px; border: 1px solid #888; border-radius: 10px; background-color: rgba(255, 255, 255, 0.08); color: #fff; font-size: clamp(0.95em, 2.6vw, 1.05em); }
+.login-container input[type="text"]::placeholder, .login-container input[type="password"]::placeholder { color: #bbb; }
+.login-container button { /* ... (Giữ nguyên) ... */ background: linear-gradient(45deg, #f06292, #ce93d8); color: white; padding: 14px 35px; border: none; border-radius: 30px; cursor: pointer; font-size: clamp(1.05em, 3.2vw, 1.2em); font-weight: bold; text-shadow: 0 1px 3px rgba(0,0,0,0.25); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); background-size: 150% auto; background-position: 0% 50%; }
+.login-container button:hover { background-position: 100% 50%; transform: translateY(-5px) scale(1.06); box-shadow: 0 10px 20px rgba(236, 64, 122, 0.3), 0 5px 10px rgba(0,0,0,0.2); }
+.login-container button:active { transform: translateY(-2px) scale(1.03); box-shadow: 0 3px 10px rgba(236, 64, 122, 0.2); }
+.error-message { /* ... (Giữ nguyên) ... */ color: #ff9a9e; margin-top: 15px; font-weight: bold; min-height: 22px; opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease-out, transform 0.3s ease-out; visibility: hidden; font-size: clamp(0.9em, 2.2vw, 1em); }
+.error-message.show { opacity: 1; transform: translateY(0); visibility: visible; }
 
 
-/* --- Hiệu ứng Hành Tinh --- */
-.planets {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Nằm trên nền sao, dưới nội dung */
-    pointer-events: none;
-}
-
-.planet {
-    position: absolute;
-    opacity: 0.8;
-}
-
-.planet1 {
-    width: 150px;
-    top: 10%;
-    left: 10%;
-    animation: orbit1 30s linear infinite;
-}
-
-.planet2 {
-    width: 100px;
-    bottom: 15%;
-    right: 15%;
-    animation: orbit2 45s linear infinite reverse;
-}
-
-@keyframes orbit1 {
-    0% { transform: translate(0, 0) rotate(0deg) translateX(20px) rotate(0deg); }
-    100% { transform: translate(0, 0) rotate(360deg) translateX(20px) rotate(-360deg); }
-}
-
-@keyframes orbit2 {
-    0% { transform: translate(0, 0) rotate(0deg) translateX(30px) rotate(0deg) scale(1.1); }
-    50% { transform: translate(0, 0) rotate(180deg) translateX(30px) rotate(-180deg) scale(1); }
-    100% { transform: translate(0, 0) rotate(360deg) translateX(30px) rotate(-360deg) scale(1.1); }
-}
-
-/* --- Hiệu ứng Trái Tim Rơi --- */
-.hearts-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0; /* Nằm trên hành tinh, dưới nội dung chính */
-    overflow: hidden;
-}
-
-.heart-char {
-    position: absolute;
-    color: red;
-    font-size: 20px;
-    animation: fall linear infinite;
-    user-select: none;
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-    }
-}
+/* --- TRANG LỜI NHẮN (message.html) --- */
+.message-page { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;}
+.message-page .message-box-wrapper { /* ... (Giữ nguyên) ... */ width: 100%; display: flex; justify-content: center; align-items: center; z-index: 2; opacity: 0; transform: scale(0.9); }
+.message-page .message-box { /* ... (Giữ nguyên) ... */ background: rgba(255, 255, 255, 0.96); padding: clamp(30px, 5vw, 45px); border-radius: 30px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12), 0 0 25px rgba(255,182,193,0.3) inset; max-width: 700px; width: 90%; border: 1px solid rgba(255, 220, 220, 0.7); color: #333; }
+.message-box h1 { /* ... (Giữ nguyên) ... */ font-family: 'Pacifico', cursive; color: #d81b60; text-shadow: 1px 1px 1px rgba(255,255,255,0.8); margin-bottom: 25px; font-size: clamp(2em, 6vw, 2.8em); }
+.message-box .cute-image { /* ... (Giữ nguyên) ... */ width: clamp(90px, 18vw, 140px); margin-bottom: 30px; border-radius: 50%; box-shadow: 0 0 20px rgba(216, 120, 135, 0.6); border: 4px solid white; padding: 3px; background-color: #fff; }
+.message-box .letter { /* ... (Giữ nguyên) ... */ text-align: left; font-size: clamp(1.05em, 2.8vw, 1.2em); line-height: 1.75; color: #4a2c2a; background: rgba(255,245,248,0.7); padding: clamp(20px, 4vw, 30px); border-radius: 20px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.06); }
+.message-box .letter p { margin-bottom: 1.3em; }
+.message-box .letter .signature { /* ... (Giữ nguyên) ... */ text-align: right; font-style: normal; margin-top: 30px; font-weight: normal; color: #bf105a; font-family: 'Pacifico', cursive; font-size: 1.25em; }
+.message-page .open-letter-container { /* ... (Giữ nguyên) ... */ text-align: center; z-index: 3; position: relative; }
+.message-page .pulsing-letter-button { /* ... (Giữ nguyên) ... */ background: linear-gradient(45deg, #ff4081, #ff79b0); color: white; border: none; padding: clamp(18px, 4vw, 22px) clamp(25px, 6vw, 35px); border-radius: 60px; font-size: clamp(1.6em, 6.5vw, 2.2em); cursor: pointer; box-shadow: 0 10px 30px rgba(255, 64, 129, 0.45); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease-out; display: inline-flex; align-items: center; gap: 12px; animation: pulseLetter 2.2s infinite ease-in-out; }
+.message-page .pulsing-letter-button .button-text { font-size: 0.55em; font-weight: bold; }
+@keyframes pulseLetter { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } } /* Thu gọn lại pulseLetter nếu không có box-shadow */
+.message-page .pulsing-letter-button:hover { transform: scale(1.08); }
+.message-page .instruction-open-letter { /* ... (Giữ nguyên) ... */ margin-top: 18px; color: #fff; font-size: clamp(1.05em, 2.6vw, 1.15em); text-shadow: 1px 1px 4px rgba(0,0,0,0.6); }
 
 
-/* --- Trang Đăng Nhập (index.html) --- */
-.login-page {
+/* --- TRANG TẢI (loading.html - Kéo thư) --- */
+.loading-page {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Đảm bảo các phần tử con được sắp xếp theo cột */
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%); /* Nền hồng tím cho loading */
     padding: 20px;
     box-sizing: border-box;
-}
-
-.login-container {
-    background: linear-gradient(145deg, rgba(15, 12, 41, 0.85), rgba(48, 43, 99, 0.85), rgba(36, 36, 62, 0.85));
-    padding: 30px 40px;
-    border-radius: 15px;
-    box-shadow: 0 0 25px rgba(173, 216, 230, 0.4);
-    z-index: 1;
-    max-width: 400px;
-    width: 90%;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-	.transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-}
-
-.login-container h1 {
-    color: #f0e68c;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    margin-bottom: 10px;
-}
-
-.login-container p {
-    color: #e6e6fa;
-    margin-bottom: 20px;
-    font-size: 1.1em;
-}
-
-.login-container label {
-    display: block;
-    margin-bottom: 5px;
-    color: #eee;
-    text-align: left;
-}
-
-.login-container input[type="text"],
-.login-container input[type="password"] {
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.9);
-    color: #333;
-}
-
-.login-container button {
-    background-color: #ff69b4;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1.1em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-.login-container:hover {
-    transform: translateY(-8px) scale(1.01); /* Hơi nhấc lên và phóng to nhẹ */
-    box-shadow: 0 15px 35px rgba(173, 216, 230, 0.5), /* Bóng đổ đậm hơn và lan tỏa hơn */
-                0 5px 15px rgba(0, 0, 0, 0.15);
-}
-.login-container button:hover {
-    background-color: #ff85c1; /* Hoặc điều chỉnh gradient nếu bạn dùng gradient */
-    transform: translateY(-4px) scale(1.05); /* Nhấc lên và phóng to hơn chút */
-    box-shadow: 0 8px 18px rgba(255, 105, 180, 0.4), /* Bóng màu hồng cho nút */
-                0 4px 8px rgba(0,0,0,0.1);
-}
-
-/* Đảm bảo :active vẫn hoạt động tốt */
-.login-container button:active {
-    transform: translateY(-2px) scale(1.02); /* Khi nhấn, vẫn hơi nhấc lên nhưng ít hơn hover, và nhỏ lại chút so với hover */
-    box-shadow: 0 3px 8px rgba(255, 105, 180, 0.35);
-    transition-duration: 0.1s; /* Phản hồi nhanh hơn khi nhấn */
-}
-
-.error-message {
-    /* color: #ff4d4d;  Màu đỏ cũ */
-    color: #ff69b4; /* Màu hồng cute, ví dụ màu của nút */
-    /* Hoặc một màu hồng khác bạn thích, ví dụ: #f783ac */
-    margin-top: 10px;
-    font-weight: bold;
-    min-height: 20px;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.1); /* Thêm bóng nhẹ cho dễ đọc */
-    opacity: 0; /* Ban đầu ẩn */
-    transform: translateY(10px); /* Ban đầu hơi dịch xuống */
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-    visibility: hidden; /* Ẩn hoàn toàn ban đầu */
-}
-
-/* Thêm class 'show' để kích hoạt hiệu ứng khi có lỗi */
-.error-message.show {
-    opacity: 1;
-    transform: translateY(0);
-    visibility: visible; /* Hiện ra */
-}
-/* --- Trang Tải (loading.html) --- */
-.loading-page {
-    display: flex; /* Đã có */
-    flex-direction: column; /* Thêm cái này để h2 và p cũng dễ căn hơn */
-    align-items: center; /* Đã có */
-    justify-content: center; /* Đã có */
-    min-height: 100vh;
-    /* Nền hồng cho trang loading */
-    background: linear-gradient(120deg, #f6d365 0%, #fda085 50%, #ffdde1 100%);
-    /* Hoặc một nền hồng khác bạn thích */
-    /* background-color: #ffe4e1; */ /* MistyRose */
-    padding: 20px; /* Thêm padding để nội dung không sát viền */
-    box-sizing: border-box; /* Để padding không làm tăng kích thước tổng */
+    color: #fff; /* Chữ trắng trên nền loading */
+    text-align: center;
 }
 
 .loading-container {
-    text-align: center;
     z-index: 1;
-    background-color: rgba(255, 255, 255, 0.15); /* Thêm chút nền mờ cho container */
-    padding: 30px 20px; /* Tăng padding cho container */
+    background-color: rgba(0, 0, 0, 0.2); /* Nền tối mờ cho container */
+    padding: clamp(25px, 5vw, 40px);
     border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
-    backdrop-filter: blur(4px); /* Hiệu ứng kính mờ (tùy chọn) */
-    -webkit-backdrop-filter: blur(4px); /* Cho Safari */
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    width: 90%; /* Giữ nguyên hoặc điều chỉnh */
-    max-width: 500px; /* Giới hạn chiều rộng tối đa */
-}
-.loading-container h2 {
-    /* color: #ffcc00;  Bỏ màu vàng cũ */
-    margin-bottom: 15px; /* Tăng khoảng cách dưới */
-    font-size: 2.5em; /* Tăng kích thước chữ một chút */
-    font-weight: bold; /* Đảm bảo chữ đậm */
-
-    /* Hiệu ứng chữ 7 sắc cầu vồng */
-    background: linear-gradient(90deg,
-        hsl(0, 100%, 70%),   /* Đỏ */
-        hsl(30, 100%, 65%),  /* Cam */
-        hsl(60, 100%, 60%),  /* Vàng */
-        hsl(120, 100%, 55%), /* Xanh lá */
-        hsl(180, 100%, 60%), /* Lam */
-        hsl(240, 100%, 70%), /* Chàm */
-        hsl(270, 100%, 75%)  /* Tím */
-    );
-    -webkit-background-clip: text; /* Cho trình duyệt Webkit (Chrome, Safari) */
-    -moz-background-clip: text; /* Cho trình duyệt Mozilla (Firefox) */
-    background-clip: text;
-    color: transparent; /* Làm cho màu chữ thực sự trong suốt để lộ gradient nền */
-
-    /* Animation cho gradient di chuyển (tùy chọn) */
-    animation: rainbowText 5s linear infinite;
-    background-size: 200% auto; /* Kích thước nền lớn hơn để có thể di chuyển */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    max-width: 500px;
 }
 
-@keyframes rainbowText {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
+.loading-container h2 { /* "Một Bức Thư Đặc Biệt" */
+    color: #fff2cc; /* Vàng kem */
+    margin-bottom: 10px;
+    font-size: clamp(1.8em, 5vw, 2.5em);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
-/* Container của slider */
+
+.loading-page .instruction-text { /* "Kéo cánh thư..." */
+    font-size: clamp(0.9em, 2.5vw, 1.1em);
+    color: #f0f0f0; /* Trắng ngà */
+    margin-bottom: 35px;
+}
+
 .slider-container {
     width: 90%;
-    max-width: 450px;
+    max-width: 400px; /* Giảm max-width một chút */
     margin: 30px auto;
     position: relative;
-    user-select: none; /* Ngăn chọn text khi kéo */
+    user-select: none;
 }
 
-/* Đường ray để kéo */
 .slider-track {
     width: 100%;
-    height: 60px;
-    background-color: rgba(0, 0, 0, 0.25);
-    border-radius: 30px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    height: 55px; /* Giảm chiều cao một chút */
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 27.5px; /* Nửa chiều cao */
+    border: 2px solid rgba(255, 255, 255, 0.15);
     position: relative;
-    overflow: hidden; /* Ẩn phần progress tràn ra */
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Chữ trong đường ray */
-.track-text {
-    color: rgba(255, 255, 255, 0.3);
+.track-text { /* "KÉO ĐỂ MỞ" */
+    color: rgba(255, 255, 255, 0.25);
     font-weight: bold;
-    letter-spacing: 3px;
-    font-size: 0.9em;
+    letter-spacing: 2px;
+    font-size: clamp(0.7em, 2vw, 0.85em);
     transition: opacity 0.3s ease;
+    text-transform: uppercase;
 }
 
-/* Thanh tiến trình màu hồng bên trong */
 .slider-progress {
     position: absolute;
     left: 0;
     top: 0;
     height: 100%;
-    width: 0%; /* Ban đầu là 0% */
-    background: linear-gradient(90deg, #ff9a9e, #fad0c4);
-    border-radius: 30px;
+    width: 0%;
+    background: linear-gradient(90deg, #ff8aae, #ffaddd); /* Gradient hồng cho progress */
+    border-radius: 27.5px;
 }
 
-/* Icon bức thư để kéo */
-.letter-icon {
+.letter-icon { /* Icon thư 💌 */
     position: absolute;
-    left: 0;
+    left: 0px; /* JS sẽ điều khiển */
     top: 50%;
     transform: translateY(-50%);
-    width: 56px; /* Hơi nhỏ hơn chiều cao của track */
-    height: 56px;
-    background-color: #ff69b4; /* Màu hồng */
+    width: 51px; /* Khớp với chiều cao track trừ border */
+    height: 51px;
+    background-color: #ff69b4;
     border-radius: 50%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px; /* Kích thước emoji */
+    font-size: clamp(22px, 5vw, 26px);
     cursor: grab;
     z-index: 2;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
 }
-
-/* Thay đổi con trỏ chuột khi đang kéo */
-body.dragging, body.dragging .letter-icon {
-    cursor: grabbing;
-}
-
+body.dragging, body.dragging .letter-icon { cursor: grabbing; }
 .letter-icon:hover {
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.3);
 }
-
-/* Hiệu ứng khi hoàn thành */
 .slider-container.completed .letter-icon {
-    background-color: #4CAF50; /* Chuyển màu xanh lá */
+    background-color: #5cb85c; /* Xanh lá khi hoàn thành */
     cursor: default;
     animation: bounceSuccess 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-
-.slider-container.completed .track-text {
-    opacity: 0; /* Ẩn chữ đi khi hoàn thành */
-}
-
+.slider-container.completed .track-text { opacity: 0; }
 @keyframes bounceSuccess {
     0% { transform: translateY(-50%) scale(1); }
-    50% { transform: translateY(-50%) scale(1.2); }
+    50% { transform: translateY(-50%) scale(1.15); }
     100% { transform: translateY(-50%) scale(1); }
 }
 
-.progress-bar-container {
-    width: 80%;
-    max-width: 400px;
-    background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 25px;
-    padding: 5px;
-    margin: 20px auto;
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-#progressBar {
-    height: 20px;
-    width: 0%;
-    background-color: #ff69b4;
-    border-radius: 20px;
-    transition: width 0.1s linear;
-}
-
-#loadingText {
-    font-size: 1.2em;
-    color: #e0e0e0;
-    margin-bottom: 30px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
-
-#revealButton {
-    background: linear-gradient(45deg, #ff6ec4, #ff80c3, #ff95b8); /* Gradient hồng cute */
-    color: white;
-    padding: 18px 35px; /* Tăng padding một chút */
-    border: none;
-    border-radius: 50px; /* Bo tròn hơn */
-    font-size: 1.4em;   /* Tăng font size một chút */
-    font-weight: bold;
+#loadingText { /* "% đang mở khóa" */
+    font-size: clamp(1em, 2.8vw, 1.15em);
+    color: #f0f0f0;
+    margin-top: 20px; /* Giảm margin top */
+    margin-bottom: 25px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4), /* Bóng màu hồng */
-                0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), /* Cho hiệu ứng nảy */
-                box-shadow 0.2s ease-out,
-                background-position 0.5s ease; /* Cho gradient di chuyển khi hover */
-    background-size: 200% auto; /* Cho hiệu ứng gradient di chuyển */
-    background-position: 0% 50%; /* Vị trí ban đầu của gradient */
-    outline: none; /* Bỏ viền focus mặc định */
-
-    /* Animation nhẹ nhàng cho nút khi chưa tương tác */
-    animation: pulseButton 2s infinite ease-in-out;
-	 display: block; /* Quan trọng để margin auto hoạt động */
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 30px; /* Thêm khoảng cách trên cho nút */
-    max-width: 300px; /* Giới hạn chiều rộng của nút nếu cần, giúp nó không quá dài trên màn hình rộng */
-    width: fit-content; /* Để nút chỉ rộng bằng nội dung + padding, nhưng vẫn là block */
-    /* Nếu width: fit-content không hoạt động như ý trên mọi trình duyệt, bạn có thể bỏ nó và dựa vào max-width */
 }
 
-@keyframes pulseButton {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4), 0 2px 5px rgba(0,0,0,0.1);
-    }
-    50% {
-        transform: scale(1.03); /* Nhịp nhẹ */
-        box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6), 0 3px 7px rgba(0,0,0,0.15);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4), 0 2px 5px rgba(0,0,0,0.1);
-    }
+#revealButton { /* Nút "Ấn Vào Đây Nè!" */
+    /* Style nút này đã được làm rất đẹp ở các bước trước, bạn có thể copy lại vào đây */
+    background: linear-gradient(45deg, #a0fe65, #69ff97); /* Gradient xanh lá cây */
+    color: #1e562f; /* Chữ xanh đậm */
+    padding: clamp(14px, 3.5vw, 18px) clamp(28px, 7vw, 38px);
+    border: none;
+    border-radius: 50px;
+    font-size: clamp(1.1em, 3.5vw, 1.4em);
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.35), 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease-out, background-position 0.5s ease;
+    background-size: 200% auto;
+    background-position: 0% 50%;
+    outline: none;
+    animation: pulseButton 2s infinite ease-in-out; /* Animation pulseButton đã định nghĩa ở trang tỏ tình, có thể dùng lại hoặc tạo mới */
+    /* display: none; JS sẽ hiện */
 }
 #revealButton:hover {
-    background-position: 100% 50%; /* Di chuyển gradient khi hover */
-    /* transform: scale(1.05);  Bỏ scale mặc định ở hover nếu đã có active */
-    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.7), 0 4px 8px rgba(0,0,0,0.2);
+    background-position: 100% 50%;
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.45), 0 4px 8px rgba(0,0,0,0.15);
 }
-#revealButton:active { /* Khi nút được nhấn xuống */
-    transform: scale(0.95); /* Thu nhỏ lại một chút */
-    box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3), 0 1px 3px rgba(0,0,0,0.1); /* Giảm bóng */
-    transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; /* Phản hồi nhanh hơn khi active */
-}
-
-/* --- Trang Lời Nhắn (message.html) --- */
-.message-page { 
-     display: flex;
-    flex-direction: column; /* Để dễ căn giữa openLetterContainer và messageBoxWrapper */
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
-    
-}
-.open-letter-container {
-    text-align: center;
-    z-index: 2; /* Nằm trên message-box-wrapper ban đầu */
-}
-.pulsing-letter-button {
-    background: linear-gradient(45deg, #ff6ec4, #ff80c3);
-    color: white;
-    border: none;
-    padding: 20px 30px;
-    border-radius: 50px;
-    font-size: 1.8em; /* Tăng kích thước nút và icon */
-    cursor: pointer;
-    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease-out;
-    display: flex; /* Để icon và text nằm cạnh nhau */
-    align-items: center;
-    gap: 10px; /* Khoảng cách giữa icon và text */
-    animation: pulseLetter 2s infinite ease-in-out;
-}
-
-.pulsing-letter-button .button-text {
-    font-size: 0.7em; /* Điều chỉnh kích thước chữ trong nút */
-    font-weight: bold;
-}
-@keyframes pulseLetter {
-    0% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5); }
-    50% { transform: scale(1.05); box-shadow: 0 12px 30px rgba(255, 105, 180, 0.6); }
-    100% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5); }
-}
-
-.pulsing-letter-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 12px 35px rgba(255, 105, 180, 0.7);
-}
-
-.pulsing-letter-button:active {
+#revealButton:active {
     transform: scale(0.95);
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3), 0 1px 3px rgba(0,0,0,0.1);
 }
+/* Nếu pulseButton chưa có, bạn có thể thêm: */
+/* @keyframes pulseButton { ... (như ở trang confession) ... } */
 
-.instruction-open-letter {
-    margin-top: 15px;
-    color: #f0f0f0; /* Màu chữ hướng dẫn */
-    font-size: 1.1em;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-}
-.message-box-wrapper {
-    width: 100%; /* Chiếm toàn bộ chiều rộng của flex item cha */
-    display: flex; /* Để căn giữa message-box bên trong nó */
-    justify-content: center;
-    align-items: center;
-    /* opacity và transform sẽ được điều khiển bởi JavaScript */
-    opacity: 0;
-    transform: scale(0.9); /* Hiệu ứng thu nhỏ ban đầu (tùy chọn) */
-    /* transition đã được đặt inline trong JS, nhưng có thể đặt ở đây nếu muốn: */
-    /* transition: opacity 0.8s ease-in, transform 0.8s ease-in; */
-}
-.message-box {
-    background: linear-gradient(135deg, rgba(255, 182, 193, 0.92), rgba(255, 218, 185, 0.92));
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
-    max-width: 600px;
-    width: 90%;
-    z-index: 1;
-   
-}
 
-@keyframes fadeInMessage {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-.message-box h1 {
-    color: #fff;
-    text-shadow: 2px 2px 5px rgba(100, 50, 50, 0.45);
-    margin-bottom: 15px;
-}
-
-.cute-image {
-    width: 100px;
-    margin-bottom: 20px;
-    border-radius: 50%;
-    box-shadow: 0 0 15px #fff;
-}
-
-.letter {
-    text-align: left;
-    font-size: 1.1em;
-    line-height: 1.6;
-    color: #5D4037;
-    background: rgba(255, 255, 255, 0.75);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.08);
-}
-.letter p {
-    margin-bottom: 1em;
-}
-.letter .signature {
-    text-align: right;
-    font-style: italic;
-    margin-top: 20px;
-    font-weight: bold;
-    color: #C2185B;
-}
-
-/* Responsive nhỏ */
-@media (max-width: 600px) {
-    .login-container, .message-box {
-        padding: 20px;
-    }
-    .login-container h1 {
-        font-size: 1.8em;
-    }
-    .message-box h1 {
-        font-size: 1.5em;
-    }
-    .letter {
-        font-size: 1em;
-    }
-    .planet1 { width: 100px; }
-    .planet2 { width: 70px; }
-    .login-container input[type="text"],
-    .login-container input[type="password"] {
-        width: calc(100% - 22px);
-    }
-}
+/* --- TRANG BẮT ĐẦU GAME (adventure-start-page) --- */
 .adventure-start-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex; justify-content: center; align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); /* Màu nền vui tươi */
-    text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    text-align: center; padding: 20px;
 }
 .start-container {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    background-color: rgba(255, 255, 255, 0.85); /* Sáng hơn chút */
+    padding: clamp(30px, 6vw, 50px);
+    border-radius: 25px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.12);
 }
 .start-container h1 {
-    color: #ff6347; /* Tomato */
+    color: #e55d42; /* Cam đỏ */
     margin-bottom: 20px;
+    font-size: clamp(1.8em, 5vw, 2.5em);
+    font-family: 'Lobster', cursive;
 }
 .start-container p {
-    color: #555;
+    color: #444;
     margin-bottom: 30px;
-    font-size: 1.2em;
+    font-size: clamp(1.1em, 3vw, 1.25em);
 }
 #startGameButton {
-    background-color: #4CAF50;
+    background: linear-gradient(45deg, #56ab2f, #a8e063); /* Gradient xanh lá */
     color: white;
-    padding: 15px 30px;
+    padding: 15px 35px;
     border: none;
     border-radius: 30px;
-    font-size: 1.3em;
+    font-size: clamp(1.2em, 3.5vw, 1.4em);
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
 }
 #startGameButton:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
+    transform: scale(1.07) translateY(-3px);
+    box-shadow: 0 8px 20px rgba(67, 160, 71, 0.3);
 }
+
+/* Các file CSS riêng cho block-shooter-game và confession-game sẽ được link riêng trong HTML của chúng */
