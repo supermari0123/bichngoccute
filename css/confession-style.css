@@ -1,0 +1,146 @@
+/* css/confession-style.css */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif; /* Bạn có thể đổi sang font lãng mạn hơn */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 70%, #ffdde1 100%);
+    background-size: cover;
+    background-position: center;
+    color: #333;
+}
+
+/* Import font (ví dụ nếu bạn muốn dùng font đặc biệt) */
+/* @import url('https://fonts.googleapis.com/css2?family=YourChosenFont&display=swap'); */
+
+
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2); /* Lớp phủ trắng mờ nhẹ hơn */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: -1;
+}
+
+.confession-container {
+    background-color: rgba(255, 255, 255, 0.95); /* Tăng độ rõ của khung */
+    padding: 45px 55px; /* Tăng padding */
+    border-radius: 30px; /* Bo tròn hơn */
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12), 0 8px 18px rgba(0,0,0,0.08);
+    text-align: center;
+    max-width: 550px; /* Tăng chiều rộng tối đa */
+    width: 90%;
+    transform: scale(0.9);
+    opacity: 0;
+    animation: fadeInConfession 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+    border: 1px solid rgba(255,200,200,0.6); /* Viền hồng nhạt */
+    transition: transform 0.4s ease-out, box-shadow 0.4s ease-out; /* Cho hiệu ứng hover khung */
+}
+
+.confession-container:hover {
+    transform: scale(1.015) translateY(-7px);
+    box-shadow: 0 22px 45px rgba(0, 0, 0, 0.15), 0 10px 22px rgba(0,0,0,0.1);
+}
+
+
+@keyframes fadeInConfession {
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.question-box {
+    margin-bottom: 40px;
+}
+
+.question-text {
+    font-size: 1.35em;
+    color: #4a4a4a; /* Chữ đậm hơn chút */
+    margin-bottom: 12px;
+    line-height: 1.65;
+}
+
+.main-question {
+    font-size: 2em; /* To hơn */
+    font-weight: bold;
+    color: #e91e63;
+    margin-bottom: 0;
+    text-shadow: 1px 1px 3px rgba(233, 30, 99, 0.2);
+}
+
+.buttons-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* Tăng khoảng cách */
+    position: relative;
+    min-height: 90px; /* Đủ không gian cho nút */
+    margin-top: 35px;
+}
+
+.answer-button {
+    padding: 14px 28px; /* Tăng padding nút */
+    font-size: 1.15em; /* Tăng font nút */
+    font-weight: bold;
+    border: none;
+    border-radius: 35px; /* Bo tròn hơn */
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                box-shadow 0.25s ease-out,
+                font-size 0.3s ease-out,
+                padding 0.3s ease-out,
+                background-color 0.25s ease,
+                opacity 0.3s ease-out,
+                left 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), /* Mượt hơn khi di chuyển */
+                top 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: absolute;
+    /* JS sẽ đặt left/top ban đầu */
+    will-change: transform, left, top, opacity; /* Gợi ý cho trình duyệt */
+}
+
+.no-button {
+    background-color: #f8f9fa; /* Sáng hơn chút */
+    color: #6c757d; /* Xám hơn */
+    border: 2px solid #ced4da;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.08);
+}
+
+.no-button:hover {
+    background-color: #e9ecef;
+    /* transform được quản lý bởi JS */
+}
+
+.yes-button {
+    background: linear-gradient(45deg, #ff6384, #ff96a7); /* Gradient hồng tươi hơn */
+    color: white;
+    box-shadow: 0 5px 18px rgba(255, 99, 132, 0.45);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+.yes-button:hover {
+    /* transform được quản lý bởi JS */
+}
+
+.final-message {
+    padding: 20px;
+    text-align: center;
+    opacity: 0; /* Sẽ được JS làm hiện ra */
+    transform: scale(0.9);
+}
+.final-message h2 {
+    color: #e91e63;
+    font-size: 2em;
+    margin-bottom: 18px;
+}
+.final-message p {
+    font-size: 1.25em;
+    color: #4a4a4a;
+}
