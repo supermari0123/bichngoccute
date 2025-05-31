@@ -1,0 +1,628 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden; /* Ngăn scrollbar xuất hiện do các element ngoài màn hình */
+    color: #fff;
+    text-align: center;
+}
+
+/* --- Nền Hồng Lãng Mạn (Tùy chọn 2: Mây Hồng) --- */
+.stars-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffe8f0; /* Màu nền hồng rất nhạt */
+    z-index: -2;
+    overflow: hidden;
+}
+
+/* Lớp mây hồng 1 (xa hơn, mờ hơn) */
+.stars-background::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+        radial-gradient(ellipse at 20% 80%, hsla(340, 80%, 85%, 0.5) 0%, transparent 70%), /* Hồng pastel */
+        radial-gradient(ellipse at 70% 30%, hsla(330, 70%, 90%, 0.4) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 90%, hsla(10, 70%, 88%, 0.3) 0%, transparent 70%); /* Chút cam đào */
+    background-blend-mode: overlay; /* Hoặc 'soft-light' */
+    animation: floatClouds 120s linear infinite alternate;
+    will-change: transform, opacity;
+    opacity: 0.8;
+}
+
+/* Lớp mây hồng 2 (gần hơn, rõ hơn) và ánh sáng */
+.stars-background::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+        radial-gradient(ellipse at 10% 15%, hsla(350, 90%, 80%, 0.6) 0%, transparent 65%),
+        radial-gradient(ellipse at 85% 70%, hsla(320, 85%, 88%, 0.55) 0%, transparent 60%),
+        /* Ánh sáng lung linh */
+        radial-gradient(circle at 50% 50%, hsla(40, 100%, 95%, 0.15) 0%, transparent 40%), /* Vàng trắng mờ */
+        radial-gradient(circle at 25% 60%, hsla(330, 100%, 97%, 0.1) 0%, transparent 30%); /* Hồng rất nhạt */
+    background-blend-mode: screen;
+    animation: floatCloudsNear 90s linear infinite alternate, subtleShine 10s infinite ease-in-out;
+    will-change: transform, opacity;
+}
+
+@keyframes floatClouds {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+    50% { opacity: 0.9; }
+    100% { transform: translate(30px, -20px) scale(1.05); opacity: 0.7; }
+}
+
+@keyframes floatCloudsNear {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { transform: translate(-25px, 15px) scale(1.03); opacity: 0.8; }
+}
+
+@keyframes subtleShine {
+    0% { opacity: 0.9; }
+    50% { opacity: 1; filter: brightness(1.1); }
+    100% { opacity: 0.9; }
+}
+
+@keyframes twinkleLittleStars {
+  0% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.5; }
+}
+@keyframes twinkleBiggerStars {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.3; }
+}
+
+@keyframes starsParallaxSlow {
+  from { background-position-x: 0px; background-position-y: 0px; }
+  to { background-position-x: -1000px; background-position-y: -250px; }
+}
+@keyframes starsParallaxMedium {
+  from { background-position-x: 0px; background-position-y: 0px; }
+  to { background-position-x: -1500px; background-position-y: -375px; }
+}
+
+
+/* --- Hiệu ứng Hành Tinh --- */
+.planets {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Nằm trên nền sao, dưới nội dung */
+    pointer-events: none;
+}
+
+.planet {
+    position: absolute;
+    opacity: 0.8;
+}
+
+.planet1 {
+    width: 150px;
+    top: 10%;
+    left: 10%;
+    animation: orbit1 30s linear infinite;
+}
+
+.planet2 {
+    width: 100px;
+    bottom: 15%;
+    right: 15%;
+    animation: orbit2 45s linear infinite reverse;
+}
+
+@keyframes orbit1 {
+    0% { transform: translate(0, 0) rotate(0deg) translateX(20px) rotate(0deg); }
+    100% { transform: translate(0, 0) rotate(360deg) translateX(20px) rotate(-360deg); }
+}
+
+@keyframes orbit2 {
+    0% { transform: translate(0, 0) rotate(0deg) translateX(30px) rotate(0deg) scale(1.1); }
+    50% { transform: translate(0, 0) rotate(180deg) translateX(30px) rotate(-180deg) scale(1); }
+    100% { transform: translate(0, 0) rotate(360deg) translateX(30px) rotate(-360deg) scale(1.1); }
+}
+
+/* --- Hiệu ứng Trái Tim Rơi --- */
+.hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0; /* Nằm trên hành tinh, dưới nội dung chính */
+    overflow: hidden;
+}
+
+.heart-char {
+    position: absolute;
+    color: red;
+    font-size: 20px;
+    animation: fall linear infinite;
+    user-select: none;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+
+/* --- Trang Đăng Nhập (index.html) --- */
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.login-container {
+    background: linear-gradient(145deg, rgba(15, 12, 41, 0.85), rgba(48, 43, 99, 0.85), rgba(36, 36, 62, 0.85));
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(173, 216, 230, 0.4);
+    z-index: 1;
+    max-width: 400px;
+    width: 90%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+	.transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.login-container h1 {
+    color: #f0e68c;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    margin-bottom: 10px;
+}
+
+.login-container p {
+    color: #e6e6fa;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #eee;
+    text-align: left;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+.login-container button {
+    background-color: #ff69b4;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.login-container:hover {
+    transform: translateY(-8px) scale(1.01); /* Hơi nhấc lên và phóng to nhẹ */
+    box-shadow: 0 15px 35px rgba(173, 216, 230, 0.5), /* Bóng đổ đậm hơn và lan tỏa hơn */
+                0 5px 15px rgba(0, 0, 0, 0.15);
+}
+.login-container button:hover {
+    background-color: #ff85c1; /* Hoặc điều chỉnh gradient nếu bạn dùng gradient */
+    transform: translateY(-4px) scale(1.05); /* Nhấc lên và phóng to hơn chút */
+    box-shadow: 0 8px 18px rgba(255, 105, 180, 0.4), /* Bóng màu hồng cho nút */
+                0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Đảm bảo :active vẫn hoạt động tốt */
+.login-container button:active {
+    transform: translateY(-2px) scale(1.02); /* Khi nhấn, vẫn hơi nhấc lên nhưng ít hơn hover, và nhỏ lại chút so với hover */
+    box-shadow: 0 3px 8px rgba(255, 105, 180, 0.35);
+    transition-duration: 0.1s; /* Phản hồi nhanh hơn khi nhấn */
+}
+
+.error-message {
+    /* color: #ff4d4d;  Màu đỏ cũ */
+    color: #ff69b4; /* Màu hồng cute, ví dụ màu của nút */
+    /* Hoặc một màu hồng khác bạn thích, ví dụ: #f783ac */
+    margin-top: 10px;
+    font-weight: bold;
+    min-height: 20px;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1); /* Thêm bóng nhẹ cho dễ đọc */
+    opacity: 0; /* Ban đầu ẩn */
+    transform: translateY(10px); /* Ban đầu hơi dịch xuống */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    visibility: hidden; /* Ẩn hoàn toàn ban đầu */
+}
+
+/* Thêm class 'show' để kích hoạt hiệu ứng khi có lỗi */
+.error-message.show {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible; /* Hiện ra */
+}
+/* --- Trang Tải (loading.html) --- */
+.loading-page {
+    display: flex; /* Đã có */
+    flex-direction: column; /* Thêm cái này để h2 và p cũng dễ căn hơn */
+    align-items: center; /* Đã có */
+    justify-content: center; /* Đã có */
+    min-height: 100vh;
+    /* Nền hồng cho trang loading */
+    background: linear-gradient(120deg, #f6d365 0%, #fda085 50%, #ffdde1 100%);
+    /* Hoặc một nền hồng khác bạn thích */
+    /* background-color: #ffe4e1; */ /* MistyRose */
+    padding: 20px; /* Thêm padding để nội dung không sát viền */
+    box-sizing: border-box; /* Để padding không làm tăng kích thước tổng */
+}
+
+.loading-container {
+    text-align: center;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.15); /* Thêm chút nền mờ cho container */
+    padding: 30px 20px; /* Tăng padding cho container */
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+    backdrop-filter: blur(4px); /* Hiệu ứng kính mờ (tùy chọn) */
+    -webkit-backdrop-filter: blur(4px); /* Cho Safari */
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 90%; /* Giữ nguyên hoặc điều chỉnh */
+    max-width: 500px; /* Giới hạn chiều rộng tối đa */
+}
+.loading-container h2 {
+    /* color: #ffcc00;  Bỏ màu vàng cũ */
+    margin-bottom: 15px; /* Tăng khoảng cách dưới */
+    font-size: 2.5em; /* Tăng kích thước chữ một chút */
+    font-weight: bold; /* Đảm bảo chữ đậm */
+
+    /* Hiệu ứng chữ 7 sắc cầu vồng */
+    background: linear-gradient(90deg,
+        hsl(0, 100%, 70%),   /* Đỏ */
+        hsl(30, 100%, 65%),  /* Cam */
+        hsl(60, 100%, 60%),  /* Vàng */
+        hsl(120, 100%, 55%), /* Xanh lá */
+        hsl(180, 100%, 60%), /* Lam */
+        hsl(240, 100%, 70%), /* Chàm */
+        hsl(270, 100%, 75%)  /* Tím */
+    );
+    -webkit-background-clip: text; /* Cho trình duyệt Webkit (Chrome, Safari) */
+    -moz-background-clip: text; /* Cho trình duyệt Mozilla (Firefox) */
+    background-clip: text;
+    color: transparent; /* Làm cho màu chữ thực sự trong suốt để lộ gradient nền */
+
+    /* Animation cho gradient di chuyển (tùy chọn) */
+    animation: rainbowText 5s linear infinite;
+    background-size: 200% auto; /* Kích thước nền lớn hơn để có thể di chuyển */
+}
+
+@keyframes rainbowText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+/* Container của slider */
+.slider-container {
+    width: 90%;
+    max-width: 450px;
+    margin: 30px auto;
+    position: relative;
+    user-select: none; /* Ngăn chọn text khi kéo */
+}
+
+/* Đường ray để kéo */
+.slider-track {
+    width: 100%;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden; /* Ẩn phần progress tràn ra */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Chữ trong đường ray */
+.track-text {
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+    letter-spacing: 3px;
+    font-size: 0.9em;
+    transition: opacity 0.3s ease;
+}
+
+/* Thanh tiến trình màu hồng bên trong */
+.slider-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%; /* Ban đầu là 0% */
+    background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+    border-radius: 30px;
+}
+
+/* Icon bức thư để kéo */
+.letter-icon {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px; /* Hơi nhỏ hơn chiều cao của track */
+    height: 56px;
+    background-color: #ff69b4; /* Màu hồng */
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px; /* Kích thước emoji */
+    cursor: grab;
+    z-index: 2;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Thay đổi con trỏ chuột khi đang kéo */
+body.dragging, body.dragging .letter-icon {
+    cursor: grabbing;
+}
+
+.letter-icon:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Hiệu ứng khi hoàn thành */
+.slider-container.completed .letter-icon {
+    background-color: #4CAF50; /* Chuyển màu xanh lá */
+    cursor: default;
+    animation: bounceSuccess 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.slider-container.completed .track-text {
+    opacity: 0; /* Ẩn chữ đi khi hoàn thành */
+}
+
+@keyframes bounceSuccess {
+    0% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.2); }
+    100% { transform: translateY(-50%) scale(1); }
+}
+
+.progress-bar-container {
+    width: 80%;
+    max-width: 400px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 25px;
+    padding: 5px;
+    margin: 20px auto;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+#progressBar {
+    height: 20px;
+    width: 0%;
+    background-color: #ff69b4;
+    border-radius: 20px;
+    transition: width 0.1s linear;
+}
+
+#loadingText {
+    font-size: 1.2em;
+    color: #e0e0e0;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+#revealButton {
+    background: linear-gradient(45deg, #ff6ec4, #ff80c3, #ff95b8); /* Gradient hồng cute */
+    color: white;
+    padding: 18px 35px; /* Tăng padding một chút */
+    border: none;
+    border-radius: 50px; /* Bo tròn hơn */
+    font-size: 1.4em;   /* Tăng font size một chút */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4), /* Bóng màu hồng */
+                0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), /* Cho hiệu ứng nảy */
+                box-shadow 0.2s ease-out,
+                background-position 0.5s ease; /* Cho gradient di chuyển khi hover */
+    background-size: 200% auto; /* Cho hiệu ứng gradient di chuyển */
+    background-position: 0% 50%; /* Vị trí ban đầu của gradient */
+    outline: none; /* Bỏ viền focus mặc định */
+
+    /* Animation nhẹ nhàng cho nút khi chưa tương tác */
+    animation: pulseButton 2s infinite ease-in-out;
+	 display: block; /* Quan trọng để margin auto hoạt động */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px; /* Thêm khoảng cách trên cho nút */
+    max-width: 300px; /* Giới hạn chiều rộng của nút nếu cần, giúp nó không quá dài trên màn hình rộng */
+    width: fit-content; /* Để nút chỉ rộng bằng nội dung + padding, nhưng vẫn là block */
+    /* Nếu width: fit-content không hoạt động như ý trên mọi trình duyệt, bạn có thể bỏ nó và dựa vào max-width */
+}
+
+@keyframes pulseButton {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4), 0 2px 5px rgba(0,0,0,0.1);
+    }
+    50% {
+        transform: scale(1.03); /* Nhịp nhẹ */
+        box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6), 0 3px 7px rgba(0,0,0,0.15);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4), 0 2px 5px rgba(0,0,0,0.1);
+    }
+}
+#revealButton:hover {
+    background-position: 100% 50%; /* Di chuyển gradient khi hover */
+    /* transform: scale(1.05);  Bỏ scale mặc định ở hover nếu đã có active */
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.7), 0 4px 8px rgba(0,0,0,0.2);
+}
+#revealButton:active { /* Khi nút được nhấn xuống */
+    transform: scale(0.95); /* Thu nhỏ lại một chút */
+    box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3), 0 1px 3px rgba(0,0,0,0.1); /* Giảm bóng */
+    transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; /* Phản hồi nhanh hơn khi active */
+}
+
+/* --- Trang Lời Nhắn (message.html) --- */
+.message-page { 
+     display: flex;
+    flex-direction: column; /* Để dễ căn giữa openLetterContainer và messageBoxWrapper */
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    
+}
+.open-letter-container {
+    text-align: center;
+    z-index: 2; /* Nằm trên message-box-wrapper ban đầu */
+}
+.pulsing-letter-button {
+    background: linear-gradient(45deg, #ff6ec4, #ff80c3);
+    color: white;
+    border: none;
+    padding: 20px 30px;
+    border-radius: 50px;
+    font-size: 1.8em; /* Tăng kích thước nút và icon */
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease-out;
+    display: flex; /* Để icon và text nằm cạnh nhau */
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa icon và text */
+    animation: pulseLetter 2s infinite ease-in-out;
+}
+
+.pulsing-letter-button .button-text {
+    font-size: 0.7em; /* Điều chỉnh kích thước chữ trong nút */
+    font-weight: bold;
+}
+@keyframes pulseLetter {
+    0% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5); }
+    50% { transform: scale(1.05); box-shadow: 0 12px 30px rgba(255, 105, 180, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5); }
+}
+
+.pulsing-letter-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(255, 105, 180, 0.7);
+}
+
+.pulsing-letter-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+}
+
+.instruction-open-letter {
+    margin-top: 15px;
+    color: #f0f0f0; /* Màu chữ hướng dẫn */
+    font-size: 1.1em;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+.message-box-wrapper {
+    width: 100%; /* Chiếm toàn bộ chiều rộng của flex item cha */
+    display: flex; /* Để căn giữa message-box bên trong nó */
+    justify-content: center;
+    align-items: center;
+    /* opacity và transform sẽ được điều khiển bởi JavaScript */
+    opacity: 0;
+    transform: scale(0.9); /* Hiệu ứng thu nhỏ ban đầu (tùy chọn) */
+    /* transition đã được đặt inline trong JS, nhưng có thể đặt ở đây nếu muốn: */
+    /* transition: opacity 0.8s ease-in, transform 0.8s ease-in; */
+}
+.message-box {
+    background: linear-gradient(135deg, rgba(255, 182, 193, 0.92), rgba(255, 218, 185, 0.92));
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+    max-width: 600px;
+    width: 90%;
+    z-index: 1;
+   
+}
+
+@keyframes fadeInMessage {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.message-box h1 {
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(100, 50, 50, 0.45);
+    margin-bottom: 15px;
+}
+
+.cute-image {
+    width: 100px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #fff;
+}
+
+.letter {
+    text-align: left;
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #5D4037;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.08);
+}
+.letter p {
+    margin-bottom: 1em;
+}
+.letter .signature {
+    text-align: right;
+    font-style: italic;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #C2185B;
+}
+
+/* Responsive nhỏ */
+@media (max-width: 600px) {
+    .login-container, .message-box {
+        padding: 20px;
+    }
+    .login-container h1 {
+        font-size: 1.8em;
+    }
+    .message-box h1 {
+        font-size: 1.5em;
+    }
+    .letter {
+        font-size: 1em;
+    }
+    .planet1 { width: 100px; }
+    .planet2 { width: 70px; }
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+        width: calc(100% - 22px);
+    }
+}

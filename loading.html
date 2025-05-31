@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đang Tải Yêu Thương...</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="loading-page">
+    <div class="loading-container">
+        <h2>Một Bức Thư Đặc Biệt</h2>
+        <p class="instruction-text">Kéo cánh thư sang phải để mở khóa điều bất ngờ nhé!</p>
+        <div class="slider-container" id="sliderContainer">
+            <div class="slider-track">
+                <div class="slider-progress" id="sliderProgress"></div>
+                <div class="letter-icon" id="letterIcon">💌</div>
+                <div class="track-text">KÉO ĐỂ MỞ</div>
+            </div>
+        </div>
+        <p id="loadingText">Đang chờ đợi... 0%</p>
+        <button id="revealButton" style="display:none;">Ấn Vào Đây Nè!</button>
+    </div>
+
+    <audio id="dragMusic" src="assets/nhac-keo-thu.mp3" loop></audio>
+    <audio id="successSound" src="assets/nhac-thanh-cong.mp3"></audio>
+    <audio id="clickSound" src="assets/nhac-click.mp3"></audio>
+
+    <script>
+        // Kiểm tra đăng nhập (để bảo vệ trang)
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            // window.location.href = 'index.html';
+        }
+
+        const sliderContainer = document.getElementById('sliderContainer');
+        const letterIcon = document.getElementById('letterIcon');
+        const sliderProgress = document.getElementById('sliderProgress');
+        const loadingText = document.getElementById('loadingText');
+        const revealButton = document.getElementById('revealButton');
+
+        const dragMusic = document.getElementById('dragMusic');
+        const successSound = document.getElementById('successSound');
+        const clickSound = document.getElementById('clickSound');
+
+        let isDragging = false;
+        let isCompleted = false;
+        // Bỏ biến musicPlayedOnce, sẽ dựa vào isDragging và dragMusic.paused
+
+        const startDrag = (e) => {
+            if (isCompleted) return; // Nếu đã hoàn thành thì không làm gì
+            isDragging = true;
+            letterIcon.classList.add('dragging'); // Thêm class để CSS có thể bắt (tùy chọn)
+
+            // Phát nhạc nền khi kéo
+            if (dragMusic && dragMusic.paused) {
+                dragMusic.play().catch(error => console.log("Lỗi phát nhạc kéo:", error));
+            }
+        };
+
+        const endDrag = (e) => {
+            if (!isDragging) return; // Chỉ xử lý nếu đang trong trạng thái kéo
+            
+            isDragging = false;
+            letterIcon.classList.remove('dragging');
+
+            if (isCompleted) return; // Nếu đã hoàn thành trong lúc kéo (onDrag đã xử lý) thì không làm gì thêm
+
+            const progress = parseFloat(sliderProgress.style.width) || 0;
+            if (progress < 99) {
+                // Trượt về vị trí ban đầu nếu chưa hoàn thành
+                letterIcon.style.left = '0px';
+                sliderProgress.style.width = '0%';
+                loadingText.textContent = `Đang chờ đợi... 0%`;
+                if (dragMusic && !dragMusic.paused) {
+                    dragMusic.pause();
+                    dragMusic.currentTime = 0;
+                }
+            }
+        };
+
+        const onDrag = (e) => {
+            if (!isDragging || isCompleted) return;
+
+            // Ngăn hành vi mặc định như chọn text hoặc cuộn trang (quan trọng)
+            e.preventDefault();
+
+            const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+            const trackRect = sliderContainer.getBoundingClientRect(); // Lấy vị trí track mỗi lần drag để chính xác hơn
+            const iconWidth = letterIcon.offsetWidth;
+
+            let newLeft = clientX - trackRect.left - (iconWidth / 2);
+            const maxLeft = trackRect.width - iconWidth;
+            
+            newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+
+            letterIcon.style.left = newLeft + 'px';
+            const progress = (newLeft / maxLeft) * 100;
+            sliderProgress.style.width = progress + '%';
+            loadingText.textContent = `Đang mở khóa... ${Math.round(progress)}%`;
+
+            if (progress >= 99 && !isCompleted) { // Thêm !isCompleted để đảm bảo chỉ chạy 1 lần
+                isCompleted = true; // Đặt isCompleted ở đây
+                // isDragging = false; // Không cần đặt isDragging = false ở đây, endDrag sẽ xử lý hoặc nó sẽ tự dừng do !isDragging ở đầu hàm
+                
+                sliderContainer.classList.add('completed');
+                loadingText.textContent = 'Đã mở khóa thành công!';
+
+                if (dragMusic && !dragMusic.paused) {
+                    dragMusic.pause();
+                    dragMusic.currentTime = 0;
+                }
+                if(successSound) {
+                    successSound.play().catch(error => console.log("Lỗi phát nhạc thành công:", error));
+                }
+
+                setTimeout(() => {
+                    revealButton.style.display = 'block';
+                }, 500);
+            }
+        };
+
+        // Gắn sự kiện cho chuột
+        letterIcon.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('mouseup', endDrag);
+
+        // Gắn sự kiện cho cảm ứng
+        // passive: false là quan trọng để e.preventDefault() trong onDrag hoạt động đúng
+        letterIcon.addEventListener('touchstart', startDrag, { passive: false });
+        document.addEventListener('touchmove', onDrag, { passive: false });
+        document.addEventListener('touchend', endDrag);
+
+
+        revealButton.addEventListener('click', function() {
+            if(successSound && !successSound.paused) {
+                successSound.pause();
+                successSound.currentTime = 0;
+            }
+            clickSound.play().catch(error => console.log("Lỗi phát nhạc click:", error));
+            setTimeout(() => {
+                window.location.href = 'message.html';
+            }, clickSound.duration > 0 ? clickSound.duration * 1000 : 500);
+        });
+
+    </script>
+</body>
+</html>

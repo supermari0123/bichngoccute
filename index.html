@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Món Quà 1/6 Đặc Biệt</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-page">
+    <div class="stars-background"></div>
+    <div class="planets">
+        
+    </div>
+
+    <div class="hearts-container">
+        <!-- Trái tim sẽ được thêm vào đây bằng JavaScript -->
+    </div>
+
+    <div class="login-container">
+        <h1>Món Quà Bí Mật 1/6</h1>
+        <p>Dành cho em bé đáng yêu nhất vũ trụ!</p>
+        <form id="loginForm">
+            <div>
+                <label for="username">Tên đăng nhập:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Mật khẩu yêu thương:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Mở Quà Nào!</button>
+            <p id="errorMessage" class="error-message"></p>
+        </form>
+    </div>
+
+    <audio id="backgroundMusicLogin" src="assets/nhac-nen-login.mp3" loop></audio>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Script cho trang đăng nhập
+        startHeartStream(); // Bắt đầu tạo trái tim rơi
+
+        // Bật nhạc nền khi người dùng tương tác lần đầu
+        document.body.addEventListener('click', function playMusic() {
+            const bgMusic = document.getElementById('backgroundMusicLogin');
+            if (bgMusic.paused) {
+                bgMusic.play().catch(error => console.log("Autoplay bị chặn, cần tương tác người dùng."));
+            }
+            // Xóa event listener sau lần click đầu tiên để không play lại mỗi lần click
+            document.body.removeEventListener('click', playMusic);
+        }, { once: true });
+
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorMessageElement = document.getElementById('errorMessage'); // Đổi tên biến cho rõ ràng
+
+        // THAY ĐỔI TÀI KHOẢN VÀ MẬT KHẨU Ở ĐÂY
+        const correctUsername = "BichNgoc";
+        const correctPassword = "sieudangyeu";
+
+        if (username === correctUsername && password === correctPassword) {
+            errorMessageElement.textContent = ''; // Xóa nội dung lỗi
+            errorMessageElement.classList.remove('show'); // Xóa class show nếu có
+            localStorage.setItem('isLoggedIn', 'true');
+            window.location.href = 'loading.html';
+        } else {
+            errorMessageElement.textContent = 'Sai tên hoặc mật khẩu rồi bé ơi, thử lại nhé!';
+            errorMessageElement.classList.add('show'); // Thêm class show để hiện lỗi với hiệu ứng
+        }
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lời Nhắn Yêu Thương!</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="message-page">
+    <!-- Nền vẫn giữ nguyên -->
+    <div class="stars-background"></div> <!-- Hoặc nền hồng của bạn -->
+
+    <!-- Nút Mở Thư sẽ hiển thị ban đầu -->
+    <div class="open-letter-container" id="openLetterContainer">
+        <button id="openLetterButton" class="pulsing-letter-button">
+            💌 <span class="button-text">Mở Thư Yêu Thương</span>
+        </button>
+        <p class="instruction-open-letter">Chạm vào cánh thư để đọc lời nhắn nhé!</p>
+    </div>
+
+    <!-- Hộp thư và nội dung sẽ ẩn ban đầu -->
+    <div class="message-box-wrapper" id="messageBoxWrapper" style="display: none; opacity: 0;">
+        <div class="message-box">
+            <h1>Gửi Crush Đáng Yêu Nhất!</h1>
+            <img src="assets/Bear Love GIF.gif" alt="Gấu ôm tim" class="cute-image">
+            <div class="letter">
+                <p>Chúc mừng ngày Quốc tế Thiếu nhi 1/6 nha, Crush của tớ!</p>
+                <p>Mong cậu lúc nào cũng vui vẻ, hồn nhiên, ăn thật ngoan, ngủ thật kỹ và luôn xinh đẹp như lúc này nhé.</p>
+                <p>Thế giới này có thể rộng lớn và phức tạp, khó khăn nhiều nhưng hãy cố gắng vì tớ sẽ luôn ủng hộ cậu.</p>
+                <p>Yêu cậu rất nhiều!</p>
+				<p>À quên nhớ chăm học lên , ngủ ít thuii hihi!!</p>
+                <p class="signature">- Người thương em nhất -</p>
+            </div>
+        </div>
+    </div>
+
+    <audio id="messageMusic" src="assets/1.mp3" loop></audio>
+
+    <script>
+        // Xóa trạng thái đăng nhập (nếu có)
+        localStorage.removeItem('isLoggedIn');
+
+        const openLetterButton = document.getElementById('openLetterButton');
+        const openLetterContainer = document.getElementById('openLetterContainer');
+        const messageBoxWrapper = document.getElementById('messageBoxWrapper');
+        const messageMusic = document.getElementById('messageMusic');
+
+        openLetterButton.addEventListener('click', () => {
+            // 1. Phát nhạc
+            if (messageMusic) {
+                messageMusic.play().catch(error => {
+                    console.error("Lỗi phát nhạc thư:", error);
+                    // Có thể thông báo cho người dùng nếu không phát được nhạc
+                });
+            }
+
+            // 2. Ẩn nút mở thư với hiệu ứng
+            openLetterContainer.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+            openLetterContainer.style.opacity = '0';
+            openLetterContainer.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                openLetterContainer.style.display = 'none';
+            }, 500); // Thời gian khớp với transition
+
+            // 3. Hiện hộp thư với hiệu ứng
+            messageBoxWrapper.style.display = 'flex'; // Hoặc 'block' tùy theo cách bạn muốn căn giữa
+            setTimeout(() => { // Đợi một chút để display có tác dụng trước khi transition opacity
+                messageBoxWrapper.style.transition = 'opacity 0.8s ease-in 0.3s, transform 0.8s ease-in 0.3s'; // Thêm delay nhỏ
+                messageBoxWrapper.style.opacity = '1';
+                messageBoxWrapper.style.transform = 'scale(1)'; // Nếu muốn hiệu ứng scale khi hiện
+            }, 50);
+        });
+    </script>
+</body>
+</html>
